@@ -31,11 +31,11 @@ $ gulp typescript && gulp watch-typescript
 ### Angular
 If any additional packages are needed ( specialised routers etc. ):
 
-1) Add them to package.json under devDependencies
+1) Add them to package.json under devDependencies  
 2) Run :
-    ````sh
-    $ npm install
-    ````
+    ```  
+    npm install
+    ```  
 3) Add Them to the gulpfile copy string
 
 ### Testing
