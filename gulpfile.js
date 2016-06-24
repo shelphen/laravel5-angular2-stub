@@ -16,6 +16,8 @@ var gulp = require('gulp');
 
 var ts = require('gulp-typescript');
 
+var notify = require("gulp-notify");
+
 var typescriptPath = "resources/assets/typescript/**/*";
 
 elixir(function(mix) {
@@ -42,8 +44,32 @@ elixir(function(mix) {
 
 });
 
+gulp.task("watch-typescript", function() {
+    gulp.watch(typescriptPath + ".ts", ["compile-typescript"]);
+    gulp.watch(typescriptPath + ".html", ["copy-typescript-templates"])
+    gulp.watch(typescriptPath + ".css", ["copy-typescript-styles"])
+});
+
+gulp.task('build-typescript', [
+    "compile-typescript",
+    "copy-typescript-templates",
+    "copy-typescript-styles"
+]);
+
+gulp.task("copy-typescript-templates", function () {
+    gulp.src(typescriptPath + ".html")
+        .pipe(gulp.dest( "public/app" ))
+        .pipe(notify("templates copied"))
+});
+
+gulp.task("copy-typescript-styles", function () {
+    gulp.src(typescriptPath + ".css")
+        .pipe(gulp.dest( "public/app" ))
+        .pipe(notify("styles copied"))
+});
+
 // create new task for typescript compiling
-gulp.task("typescript", function() {
+gulp.task("compile-typescript", function() {
 
     // declare the root directory of typescript files
     gulp.src(typescriptPath + ".ts")
@@ -65,9 +91,7 @@ gulp.task("typescript", function() {
 
         // Save compiled type-script files to public directory
         .pipe(gulp.dest( "public/app" ))
-
+        .pipe(notify("Typescript Compiled"));
 });
 
-gulp.task("watch-typescript", function() {
-    gulp.watch(typescriptPath + ".ts", ["typescript"]);
-});
+

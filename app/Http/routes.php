@@ -11,6 +11,8 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::resource("/api/heroes", "HeroesController");
+
+Route::any( '{none_api}', function ( $page ) {
+    return view("main");
+} )->where('none_api', '(.*)');
